@@ -1,6 +1,6 @@
 ## LinkPortal
 
-Hello bois (Lev)
+Hello boiz (Lev)
 
 ## License
 
