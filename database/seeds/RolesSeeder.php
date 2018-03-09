@@ -39,6 +39,7 @@ class RolesSeeder extends Seeder
                 'show-private-link'=>true,
                 'list-private-links'=> true,
                 'update-user'=>true,
+                'update-user-role'=>true
             ]),
         ]);
     }

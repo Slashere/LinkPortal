@@ -7,7 +7,7 @@
             <div class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
 
-                        <div class="panel-heading"><p>Title: {{$link->id}}</p></div>
+                        <div class="panel-heading"><p>Title: {{$link->title}}</p></div>
 
                         <div class="panel-body">
                             <p>Link: {{$link->link}}</p>
@@ -19,5 +19,6 @@
 
             </div>
         </div>
+    </div>
 @endsection
 

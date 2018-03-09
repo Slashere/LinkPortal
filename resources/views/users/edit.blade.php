@@ -52,13 +52,13 @@
                                     @endif
                                 </div>
                             </div>
-
+                            @can('update-user-role')
                             {{-- roles options --}}
                             <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
-                                <label for="name" class="col-md-4 control-label">Role</label>
+                                <label for="role" class="col-md-4 control-label">Role</label>
 
                                 <div class="col-md-6">
-                                    <select id="role" class="form-control" name="role" value="{{ old('role') }}" required >
+                                    <select id="role" class="form-control" name="role" required autofocus>
                                         @foreach($roles as $id=>$role)
                                             <option value="{{$id}}" @if($id == $current_role) selected @elseif($current_role == 3) disabled @endif>{{$role}}</option>
                                         @endforeach
@@ -71,6 +71,7 @@
                                     @endif
                                 </div>
                             </div>
+                            @endcan
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
