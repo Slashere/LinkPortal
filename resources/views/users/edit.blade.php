@@ -73,6 +73,11 @@
                             </div>
                             @endcan
 
+                            <label for="description" class="col-md-4 control-label">Verified</label>
+
+                            {{ Form::hidden('verified', 0) }}
+                            {{ Form::checkbox('verified', 1, old('verified', $user->verified)? 'checked' : '') }}
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

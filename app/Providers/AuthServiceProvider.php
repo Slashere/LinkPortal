@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Link;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -50,6 +49,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('update-user-role', function (User $user) {
             return $user->hasAccess(['update-user-role']);
+        });
+
+        Gate::define('delete-user', function (User $user) {
+            return $user->hasAccess(['delete-user']);
         });
 
         Gate::define('show-private-link', function (User $user, Link $link) {

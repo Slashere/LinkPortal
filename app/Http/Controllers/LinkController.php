@@ -15,8 +15,8 @@ class LinkController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth', ['only' => ['create', 'edit']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -89,8 +89,6 @@ class LinkController extends Controller
         // delete
         $link = Link::findOrFail($link->id);
         $link->delete();
-
-        Session::flash('flash_message', 'News deleted successfully!');
 
         return redirect()->route('main');
     }

@@ -17,9 +17,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('auth');
 
-//Route::get('protected', ['middleware' => ['auth', 'admin'], function() {
-//    return "this page requires that you be logged in and an Admin";
-//}]);
+Route::get('/admin', 'UserController@admin')
+    ->name('admin_panel')
+    ->middleware('auth','admin');
+
+Route::delete('/delete/{user}', 'UserController@destroy')
+    ->name('delete_user')
+    ->middleware('can:delete-user,user');
 
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 

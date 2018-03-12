@@ -40,6 +40,16 @@ class UserController extends Controller
         return view('users.edit', compact(['user', 'roles', 'current_role']));
     }
 
+    public function admin()
+    {
+        $users = User::all();
+//        $roles = Role::orderBy('name')->pluck('name', 'id');
+//        foreach ($roles as $role) {
+//            $current_role = $role->name;
+//        }
+        return view('admin.index', compact('users'));
+    }
+
     public function update(User $user, Request $request)
     {
         $data = $request->only('login', 'email', 'name', 'surname');
@@ -47,10 +57,28 @@ class UserController extends Controller
             if (!$user->isAdmin()) {
                 $role = $request->only('role');
                 $user->roles()->sync($role);
+                $data = $request->only('verified');
             }
         }
         $user->fill($data)->save();
         return redirect()->route('show_user', $user);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        // delete
+        if (!$user->isAdmin()) {
+        $user = User::findOrFail($user->id);
+        $user->delete();
+        }
+        return redirect()->route('admin_panel');
+
     }
 
 }

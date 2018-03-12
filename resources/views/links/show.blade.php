@@ -11,9 +11,11 @@
 
                         <div class="panel-body">
                             <p>Link: {{$link->link}}</p>
-                            <p>UserID: {{$link->user_id}}</p>
+                            <p>UserID: {{$link->user->name}}</p>
                             <p>Description: {{$link->description}}</p>
-                            <p>Private: {{$link->private}}</p>
+                            @can('update-link', $link)
+                                <p>Private: {{$link->private}}</p>
+                            @endcan
                         </div>
                     </div>
 

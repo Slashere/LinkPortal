@@ -53,6 +53,11 @@
                         <li>
                             <a href="{{ route('show_user', Auth::user()->id) }}">Cabinet</a>
                         </li>
+                    @if(Auth::user()->isAdmin())
+                        <li>
+                            <a href="{{ route('admin_panel') }}">Admin panel</a>
+                        </li>
+                        @endif
                         <li>
                             <a href="{{ route('logout') }}"
                                onclick="event.preventDefault();

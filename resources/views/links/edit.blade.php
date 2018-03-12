@@ -52,7 +52,10 @@
                                 </div>
                             </div>
                             <label for="description" class="col-md-4 control-label">Private</label>
-                            {{ Form::checkbox('private') }}
+
+                            {{ Form::hidden('private', 0) }}
+                            {{ Form::checkbox('private', 1, old('private', $link->private)? 'checked' : '') }}
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
