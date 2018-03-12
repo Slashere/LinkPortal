@@ -20,6 +20,7 @@
                                 <a class="btn btn-small btn-success" href="{{ route('edit_user', $user->id) }}">Edit
                                     profile</a>
                             @endcan
+
                             @can('delete-user')
                             <!-- Delete should be a button -->
                                 {!! Form::open([
