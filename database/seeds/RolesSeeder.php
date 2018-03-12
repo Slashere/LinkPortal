@@ -41,7 +41,7 @@ class RolesSeeder extends Seeder
                 'show-private-link' => true,
                 'list-private-links' => true,
                 'update-user' => true,
-                'update-user-role' => true,
+                'update-user-status-and-role' => true,
                 'delete-user' => true,
             ]),
         ]);

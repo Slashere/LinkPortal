@@ -5,7 +5,8 @@
         <div class="row">
 
             <div class="col-md-8 col-md-offset-2">
-                @foreach($users as $user)
+                <h2>Users:</h2>
+            @foreach($users as $user)
                     <div class="panel panel-default">
 
                         <div class="panel-heading"><p>Login: {{$user->login}}</p></div>
@@ -14,6 +15,7 @@
                             <p>Email: {{$user->email}}</p>
                             <p>Name: {{$user->name}}</p>
                             <p>Surname: {{$user->surname}}</p>
+                            <p>Role: </p>
                             @can('update-user', $user)
                                 <a class="btn btn-small btn-success" href="{{ route('edit_user', $user->id) }}">Edit
                                     profile</a>

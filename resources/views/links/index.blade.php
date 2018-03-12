@@ -7,7 +7,8 @@
                 <a class="btn btn-small btn-success" href="{{ route('create_link') }}">Create Link</a>
             @endcan
             <div class="col-md-8 col-md-offset-2">
-                @foreach ($allMyLinks as $link)
+                <h2>My links:</h2>
+            @foreach ($allMyLinks as $link)
                     <div class="panel panel-default">
                         <div class="panel-heading"><a
                                     href='{{ route('show_link',$link->id) }}'>Title: {{$link->title}}</a>

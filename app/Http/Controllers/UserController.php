@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Link;
 use Gate;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -23,8 +24,16 @@ class UserController extends Controller
         foreach ($user->roles as $role) {
             $myRole = $role->name;
         }
-        $link = Link::where('user_id',$id)->paginate(3);
-        return view('users.show', compact(['user', 'myRole','link']));
+
+        $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
+
+
+        if (Gate::allows('list-private-links')) {
+            $links = Link::where('user_id', '=', $id)->paginate(3);
+        }
+
+
+        return view('users.show', compact(['user', 'myRole','links']));
     }
 
     /**
@@ -45,22 +54,17 @@ class UserController extends Controller
     public function admin()
     {
         $users = User::paginate(3);
-//        $roles = Role::orderBy('name')->pluck('name', 'id');
-//        foreach ($roles as $role) {
-//            $current_role = $role->name;
-//        }
+
         return view('admin.index', compact('users'));
     }
 
     public function update(User $user, Request $request)
     {
         $data = $request->only('login', 'email', 'name', 'surname');
-        if (Gate::allows('update-user-role')) {
-            if (!$user->isAdmin()) {
+        if (Gate::allows('update-user-status-and-role')) {
                 $role = $request->only('role');
                 $user->roles()->sync($role);
                 $data = $request->only('verified');
-            }
         }
         $user->fill($data)->save();
         return redirect()->route('show_user', $user);

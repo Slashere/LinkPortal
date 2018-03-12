@@ -11,7 +11,7 @@
 
                     <div class="panel-body">
                         <p>Link: {{$link->link}}</p>
-                        <p>UserID: {{$link->user->name}}</p>
+                        <p>User: <a href="{{route('show_user',$link->user_id)}}">{{$link->user->name}}</a></p>
                         <p>Description: {{$link->description}}</p>
                         @can('update-link', $link)
                             <p>Private: {{$link->private}}</p>

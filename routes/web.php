@@ -11,56 +11,64 @@
 |
 */
 
-Route::get('/', 'MainController@index')->middleware('checkstatus')->name('main');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('auth');
+Route::middleware('checkstatus')->group(function () {
 
-Route::get('/admin', 'UserController@admin')
-    ->name('admin_panel')
-    ->middleware('auth', 'admin');
+    Auth::routes();
 
-Route::delete('/delete/{user}', 'UserController@destroy')
-    ->name('delete_user')
-    ->middleware('can:delete-user,user');
+    Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
-Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+    Route::get('/', 'MainController@index')->name('main');
 
-Route::get('/mylinks', 'LinkController@index')
-    ->name('list_links')
-    ->middleware('auth');
+    Route::get('/show/{link}', 'LinkController@show')
+        ->name('show_link');
 
-Route::get('/show/{link}', 'LinkController@show')
-    ->name('show_link');
+    Route::get('/user/{id}', 'UserController@show')
+        ->name('show_user');
 
-Route::get('/create', 'LinkController@create')
-    ->name('create_link')
-    ->middleware('can:create-link');
+    Route::middleware('auth')->group(function () {
 
-Route::post('/create', 'LinkController@store')
-    ->name('store_link')
-    ->middleware('can:create-link');
+        Route::get('/home', 'HomeController@index')
+            ->name('auth');
 
-Route::get('/edit/{link}', 'LinkController@edit')
-    ->name('edit_link')
-    ->middleware('can:update-link,link');
+        Route::get('/admin', 'UserController@admin')
+            ->name('admin_panel')
+            ->middleware('admin');
 
-Route::post('/edit/{link}', 'LinkController@update')
-    ->name('update_link')
-    ->middleware('can:update-link,link');
+        Route::delete('/delete/{user}', 'UserController@destroy')
+            ->name('delete_user')
+            ->middleware('can:delete-user,user');
 
-Route::delete('/delete/{link}', 'LinkController@destroy')
-    ->name('delete_link')
-    ->middleware('can:delete-link,link');
+        Route::get('/mylinks', 'LinkController@index')
+            ->name('list_links');
 
-Route::get('/user/{id}', 'UserController@show')
-    ->name('show_user');
+        Route::get('/create', 'LinkController@create')
+            ->name('create_link')
+            ->middleware('can:create-link');
 
-Route::get('/user/edit/{user}', 'UserController@edit')
-    ->name('edit_user')
-    ->middleware('can:update-user,user');
+        Route::post('/create', 'LinkController@store')
+            ->name('store_link')
+            ->middleware('can:create-link');
 
-Route::post('/user/edit/{user}', 'UserController@update')
-    ->name('update_user')
-    ->middleware('can:update-user,user');
+        Route::get('/edit/{link}', 'LinkController@edit')
+            ->name('edit_link')
+            ->middleware('can:update-link,link');
+
+        Route::post('/edit/{link}', 'LinkController@update')
+            ->name('update_link')
+            ->middleware('can:update-link,link');
+
+        Route::delete('/delete/{link}', 'LinkController@destroy')
+            ->name('delete_link')
+            ->middleware('can:delete-link,link');
+
+        Route::get('/user/edit/{user}', 'UserController@edit')
+            ->name('edit_user')
+            ->middleware('can:update-user,user');
+
+        Route::post('/user/edit/{user}', 'UserController@update')
+            ->name('update_user')
+            ->middleware('can:update-user,user');
+    });
+});

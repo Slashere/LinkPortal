@@ -56,7 +56,7 @@
                                     @endif
                                 </div>
                             </div>
-                            @can('update-user-role')
+                            @can('update-user-status-and-role')
                                 {{-- roles options --}}
                                 <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
                                     <label for="role" class="col-md-4 control-label">Role</label>
@@ -64,8 +64,7 @@
                                     <div class="col-md-6">
                                         <select id="role" class="form-control" name="role" required autofocus>
                                             @foreach($roles as $id=>$role)
-                                                <option value="{{$id}}" @if($id == $current_role) selected
-                                                        @elseif($current_role == 3) disabled @endif>{{$role}}</option>
+                                                <option value="{{$id}}" @if($id == $current_role) selected @endif>{{$role}}</option>
                                             @endforeach
                                         </select>
 
@@ -76,13 +75,12 @@
                                         @endif
                                     </div>
                                 </div>
-                            @endcan
 
                             <label for="description" class="col-md-4 control-label">Verified</label>
 
                             {{ Form::hidden('verified', 0) }}
                             {{ Form::checkbox('verified', 1, old('verified', $user->verified)? 'checked' : '') }}
-
+                            @endcan
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

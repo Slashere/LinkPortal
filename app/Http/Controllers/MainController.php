@@ -13,7 +13,7 @@ class MainController extends Controller
     {
 
         if (Auth::user()) {
-            $allLinks = Link::where('private', '=', false)->orWhere('user_id', '=', Auth::user()->id)->paginate(3);
+            $allLinks = Link::where('private', '=', false)->where('user_id', '=', Auth::user()->id)->paginate(3);
         } else {
             $allLinks = Link::where('private', '=', false)->paginate(3);
         }

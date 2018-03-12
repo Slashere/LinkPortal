@@ -47,8 +47,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess(['update-user']) or $user->id == $user2->id;
         });
 
-        Gate::define('update-user-role', function (User $user) {
-            return $user->hasAccess(['update-user-role']);
+        Gate::define('update-user-status-and-role', function (User $user) {
+            return $user->hasAccess(['update-user-status-and-role']);
         });
 
         Gate::define('delete-user', function (User $user) {
@@ -62,5 +62,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('list-private-links', function (User $user) {
             return $user->hasAccess(['list-private-links']);
         });
+
     }
 }
