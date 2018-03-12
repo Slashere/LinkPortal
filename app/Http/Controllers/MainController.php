@@ -9,19 +9,20 @@ use Gate;
 
 class MainController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         if (Auth::user()) {
-            $allLinks = Link::where('private', '=' , false)->orWhere('user_id', '=', Auth::user()->id)->get();;
+            $allLinks = Link::where('private', '=', false)->orWhere('user_id', '=', Auth::user()->id)->paginate(3);
         } else {
-            $allLinks = Link::where('private', '=' , false)->get();
+            $allLinks = Link::where('private', '=', false)->paginate(3);
         }
 
 
-        if(Gate::allows('list-private-links')) {
-            $allLinks = Link::all();
+        if (Gate::allows('list-private-links')) {
+            $allLinks = Link::paginate(3);
         }
 
-        return view('welcome',compact('allLinks'));
+        return view('welcome', compact('allLinks'));
     }
 }

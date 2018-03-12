@@ -12,6 +12,7 @@ class VerifyMail extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+
     /**
      * Create a new message instance.
      *
@@ -21,6 +22,7 @@ class VerifyMail extends Mailable
     {
         $this->user = $user;
     }
+
     /**
      * Build the message.
      *

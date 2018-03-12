@@ -1,6 +1,8 @@
 <?php
+
 use Illuminate\Database\Seeder;
 use App\Role;
+
 class RolesSeeder extends Seeder
 {
     /**
@@ -11,35 +13,35 @@ class RolesSeeder extends Seeder
     public function run()
     {
         $user = Role::create([
-            'name'        => 'User',
-            'slug'        => 'user',
+            'name' => 'User',
+            'slug' => 'user',
             'permissions' => json_encode([
                 'create-link' => true,
-                'see-all-links'=>false,
+                'see-all-links' => false,
             ]),
         ]);
         $editor = Role::create([
-            'name'        => 'Editor',
-            'slug'        => 'editor',
+            'name' => 'Editor',
+            'slug' => 'editor',
             'permissions' => json_encode([
-                'delete-link'=> true,
-                'update-link'=> true,
+                'delete-link' => true,
+                'update-link' => true,
                 'create-link' => true,
-                'show-private-link'=>true,
-                'list-private-links'=> true,
+                'show-private-link' => true,
+                'list-private-links' => true,
             ]),
         ]);
         $admin = Role::create([
-            'name'        => 'Admin',
-            'slug'        => 'admin',
+            'name' => 'Admin',
+            'slug' => 'admin',
             'permissions' => json_encode([
-                'delete-link'=> true,
-                'update-link'=> true,
+                'delete-link' => true,
+                'update-link' => true,
                 'create-link' => true,
-                'show-private-link'=> true,
-                'list-private-links'=> true,
-                'update-user'=> true,
-                'update-user-role'=> true,
+                'show-private-link' => true,
+                'list-private-links' => true,
+                'update-user' => true,
+                'update-user-role' => true,
                 'delete-user' => true,
             ]),
         ]);

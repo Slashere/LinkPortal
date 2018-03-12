@@ -9,7 +9,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
     use Authenticatable;
 
-    protected $table='users';
+    protected $table = 'users';
     protected $guarded = [];
 
     public function roles()
@@ -24,8 +24,8 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 
     public function hasAccess(array $permissions)
     {
-        foreach($this->roles as $role){
-            if($role->hasAccess($permissions)){
+        foreach ($this->roles as $role) {
+            if ($role->hasAccess($permissions)) {
                 return true;
             }
         }
@@ -34,10 +34,8 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 
     public function isAdmin()
     {
-        foreach ($this->roles()->get() as $role)
-        {
-            if ($role->name == 'Admin')
-            {
+        foreach ($this->roles()->get() as $role) {
+            if ($role->name == 'Admin') {
                 return true;
             }
         }

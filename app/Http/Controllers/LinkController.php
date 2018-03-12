@@ -24,7 +24,7 @@ class LinkController extends Controller
      */
     public function index()
     {
-        $allMyLinks = Link::where('user_id','=', Auth::user()->id)->get();
+        $allMyLinks = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
         return view('links.index', compact('allMyLinks'));
     }
 
@@ -40,20 +40,21 @@ class LinkController extends Controller
 
     public function store(Request $request)
     {
-        $data            = $request->only('link','title', 'description','private');
+        $data = $request->only('link', 'title', 'description', 'private');
         $data['user_id'] = auth()->user()->id;
-        $link            = Link::create($data);
+        $link = Link::create($data);
         return redirect()->route('list_links');
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $link
+     * @param  int $link
      * @return \Illuminate\Http\Response
      */
     public function show(Link $link)
     {
-        if(Gate::allows('show-private-link', $link) or $link->private == 0) {
+        if (Gate::allows('show-private-link', $link) or $link->private == 0) {
             $link = Link::findOrFail($link->id);
             return view('links.show', compact('link'));
         } else {
@@ -64,7 +65,7 @@ class LinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Link $link)
@@ -74,14 +75,15 @@ class LinkController extends Controller
 
     public function update(Link $link, Request $request)
     {
-        $data = $request->only('link','title', 'description','private');
+        $data = $request->only('link', 'title', 'description', 'private');
         $link->fill($data)->save();
         return redirect()->route('show_link', ['id' => $link->id]);
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Link $link)

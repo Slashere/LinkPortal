@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess(['delete-link']) or $user->id == $link->user_id;
         });
 
-        Gate::define('update-user', function (User $user ,User $user2) {
+        Gate::define('update-user', function (User $user, User $user2) {
             return $user->hasAccess(['update-user']) or $user->id == $user2->id;
         });
 

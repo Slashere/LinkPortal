@@ -6,7 +6,7 @@
 
             <div class="col-md-8 col-md-offset-2">
                 @foreach($users as $user)
-                <div class="panel panel-default">
+                    <div class="panel panel-default">
 
                         <div class="panel-heading"><p>Login: {{$user->login}}</p></div>
 
@@ -31,7 +31,7 @@
                             @endcan
                         </div>
 
-                </div>
+                    </div>
                 @endforeach
 
             </div>

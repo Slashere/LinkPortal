@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use Illuminate\Http\Request;
 use App\User;
+use App\Link;
 use Gate;
 
 class UserController extends Controller
@@ -22,7 +23,8 @@ class UserController extends Controller
         foreach ($user->roles as $role) {
             $myRole = $role->name;
         }
-        return view('users.show', compact(['user', 'myRole']));
+        $link = Link::where('user_id',$id)->paginate(3);
+        return view('users.show', compact(['user', 'myRole','link']));
     }
 
     /**
@@ -42,7 +44,7 @@ class UserController extends Controller
 
     public function admin()
     {
-        $users = User::all();
+        $users = User::paginate(3);
 //        $roles = Role::orderBy('name')->pluck('name', 'id');
 //        foreach ($roles as $role) {
 //            $current_role = $role->name;
@@ -67,15 +69,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
         // delete
         if (!$user->isAdmin()) {
-        $user = User::findOrFail($user->id);
-        $user->delete();
+            $user = User::findOrFail($user->id);
+            $user->delete();
         }
         return redirect()->route('admin_panel');
 

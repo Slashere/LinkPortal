@@ -8,14 +8,16 @@
                     <div class="panel-heading">Update user</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('update_user', ['user' => $user->id]) }}">
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{ route('update_user', ['user' => $user->id]) }}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('login') ? ' has-error' : '' }}">
                                 <label for="login" class="col-md-4 control-label">Login</label>
 
                                 <div class="col-md-6">
-                                    <input id="login" type="text" class="form-control" name="login" value="{{ old('login', $user->login) }}" required autofocus>
+                                    <input id="login" type="text" class="form-control" name="login"
+                                           value="{{ old('login', $user->login) }}" required autofocus>
 
                                     @if ($errors->has('login'))
                                         <span class="help-block">
@@ -29,7 +31,8 @@
                                 <label for="name" class="col-md-4 control-label">Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}" required autofocus>
+                                    <input id="name" type="text" class="form-control" name="name"
+                                           value="{{ old('name', $user->name) }}" required autofocus>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -43,7 +46,8 @@
                                 <label for="surname" class="col-md-4 control-label">Surname</label>
 
                                 <div class="col-md-6">
-                                    <input id="surname" type="text" class="form-control" name="surname" value="{{ old('surname', $user->surname) }}" required autofocus>
+                                    <input id="surname" type="text" class="form-control" name="surname"
+                                           value="{{ old('surname', $user->surname) }}" required autofocus>
 
                                     @if ($errors->has('surname'))
                                         <span class="help-block">
@@ -53,24 +57,25 @@
                                 </div>
                             </div>
                             @can('update-user-role')
-                            {{-- roles options --}}
-                            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
-                                <label for="role" class="col-md-4 control-label">Role</label>
+                                {{-- roles options --}}
+                                <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                                    <label for="role" class="col-md-4 control-label">Role</label>
 
-                                <div class="col-md-6">
-                                    <select id="role" class="form-control" name="role" required autofocus>
-                                        @foreach($roles as $id=>$role)
-                                            <option value="{{$id}}" @if($id == $current_role) selected @elseif($current_role == 3) disabled @endif>{{$role}}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="col-md-6">
+                                        <select id="role" class="form-control" name="role" required autofocus>
+                                            @foreach($roles as $id=>$role)
+                                                <option value="{{$id}}" @if($id == $current_role) selected
+                                                        @elseif($current_role == 3) disabled @endif>{{$role}}</option>
+                                            @endforeach
+                                        </select>
 
-                                    @if ($errors->has('role'))
-                                        <span class="help-block">
+                                        @if ($errors->has('role'))
+                                            <span class="help-block">
                                         <strong>{{ $errors->first('role') }}</strong>
                                     </span>
-                                    @endif
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
                             @endcan
 
                             <label for="description" class="col-md-4 control-label">Verified</label>

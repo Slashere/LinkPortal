@@ -8,14 +8,16 @@
                     <div class="panel-heading">Update Link</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('update_link', ['link' => $link->id]) }}">
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{ route('update_link', ['link' => $link->id]) }}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label for="title" class="col-md-4 control-label">Title</label>
 
                                 <div class="col-md-6">
-                                    <input id="title" type="text" class="form-control" name="title" value="{{ old('title', $link->title) }}" required autofocus>
+                                    <input id="title" type="text" class="form-control" name="title"
+                                           value="{{ old('title', $link->title) }}" required autofocus>
 
                                     @if ($errors->has('title'))
                                         <span class="help-block">
@@ -29,7 +31,8 @@
                                 <label for="link" class="col-md-4 control-label">Link</label>
 
                                 <div class="col-md-6">
-                                    <input id="link" type="text" class="form-control" name="link" value="{{ old('link', $link->link) }}" required autofocus>
+                                    <input id="link" type="text" class="form-control" name="link"
+                                           value="{{ old('link', $link->link) }}" required autofocus>
 
                                     @if ($errors->has('link'))
                                         <span class="help-block">
@@ -43,7 +46,9 @@
                                 <label for="description" class="col-md-4 control-label">Description</label>
 
                                 <div class="col-md-6">
-                                    <textarea name="description" id="description" cols="30" rows="10" class="form-control" required>{{ old('description', $link->description) }}</textarea>
+                                    <textarea name="description" id="description" cols="30" rows="10"
+                                              class="form-control"
+                                              required>{{ old('description', $link->description) }}</textarea>
                                     @if ($errors->has('description'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>

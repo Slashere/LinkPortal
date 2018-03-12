@@ -19,7 +19,7 @@ Route::get('/home', 'HomeController@index')->name('auth');
 
 Route::get('/admin', 'UserController@admin')
     ->name('admin_panel')
-    ->middleware('auth','admin');
+    ->middleware('auth', 'admin');
 
 Route::delete('/delete/{user}', 'UserController@destroy')
     ->name('delete_user')

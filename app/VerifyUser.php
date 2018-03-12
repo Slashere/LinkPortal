@@ -9,7 +9,7 @@ class VerifyUser extends Model
 {
 
     protected $guarded = [];
-    public $primaryKey  = 'user_id';
+    public $primaryKey = 'user_id';
     public $timestamps = false;
 
     public function user()

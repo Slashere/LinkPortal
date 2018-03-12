@@ -1,8 +1,10 @@
 <?php
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+
 class CreateRoleUsersTable extends Migration
 {
     /**
@@ -21,6 +23,7 @@ class CreateRoleUsersTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
+
     /**
      * Reverse the migrations.
      *
