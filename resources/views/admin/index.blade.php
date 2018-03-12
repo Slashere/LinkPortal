@@ -15,7 +15,7 @@
                             <p>Email: {{$user->email}}</p>
                             <p>Name: {{$user->name}}</p>
                             <p>Surname: {{$user->surname}}</p>
-                            <p>Role: </p>
+                            <p>Role:  </p>
                             @can('update-user', $user)
                                 <a class="btn btn-small btn-success" href="{{ route('edit_user', $user->id) }}">Edit
                                     profile</a>
