@@ -54,7 +54,6 @@ class UserController extends Controller
     public function admin()
     {
         $users = User::paginate(3);
-
         return view('admin.index', compact('users'));
     }
 
