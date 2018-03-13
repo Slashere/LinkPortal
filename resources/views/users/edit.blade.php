@@ -63,8 +63,8 @@
 
                                     <div class="col-md-6">
                                         <select id="role" class="form-control" name="role" required autofocus>
-                                            @foreach($roles as $id=>$role)
-                                                <option value="{{$id}}" @if($id == $current_role) selected @endif>{{$role}}</option>
+                                            @foreach($roles as $id => $role)
+                                                <option value="{{$id}}" @if($id == $user->role->id) selected @endif>{{$role}}</option>
                                             @endforeach
                                         </select>
 

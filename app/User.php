@@ -12,9 +12,9 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     protected $table = 'users';
     protected $guarded = [];
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->hasOne(Role::class, 'id','role_id');
     }
 
     public function verifyUser()
@@ -24,20 +24,16 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 
     public function hasAccess(array $permissions)
     {
-        foreach ($this->roles as $role) {
-            if ($role->hasAccess($permissions)) {
+            if ($this->role->hasAccess($permissions)) {
                 return true;
-            }
         }
         return false;
     }
 
     public function isAdmin()
     {
-        foreach ($this->roles()->get() as $role) {
-            if ($role->name == 'Admin') {
+            if ($this->role->name == 'Admin') {
                 return true;
-            }
         }
 
         return false;
