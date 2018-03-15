@@ -36,7 +36,7 @@ Route::middleware('checkstatus')->group(function () {
             ->name('admin_panel')
             ->middleware('admin');
 
-        Route::delete('/delete/{user}', 'UserController@destroy')
+        Route::delete('/user/delete/{user}', 'UserController@destroy')
             ->name('delete_user')
             ->middleware('can:delete-user,user');
 

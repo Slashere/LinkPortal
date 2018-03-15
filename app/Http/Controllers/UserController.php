@@ -22,8 +22,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
-
+        if (Auth::check()) {
+            if (Auth::user()->id == $id) {
+                $links = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
+            }
+        } else {
+            $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
+        }
 
         if (Gate::allows('list-private-links')) {
             $links = Link::where('user_id', '=', $id)->paginate(3);
@@ -54,13 +59,17 @@ class UserController extends Controller
 
     public function update(User $user, Request $request)
     {
-        $data = $request->only('login', 'name', 'surname');
+        $user->login = $request->input('login');
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+
         if (Gate::allows('update-user-status-and-role')) {
-            $user->verified = $request->verified;
-            $user->role_id = $request->role;
+            $user->verified = $request->input('verified');
+            $user->role_id = $request->input('role');
         }
-        $user->fill($data)->save();
-        return redirect()->route('show_user', $user);
+
+        $user->save();
+        return redirect()->route('show_user', $user)->with('success', 'User was updated');
     }
 
     /**
@@ -71,12 +80,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // delete
-        if (!$user->isAdmin()) {
-            $user = User::findOrFail($user->id);
-            $user->delete();
-        }
-        return redirect()->route('admin_panel');
+        $user = User::findOrFail($user->id);
+        $user->delete();
+        return redirect()->route('admin_panel')->with('delete', 'User was deleted');
 
     }
 

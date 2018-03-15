@@ -71,11 +71,14 @@
                         </li>
                     @endguest
                 </ul>
+
             </div>
         </div>
-    </nav>
 
+    </nav>
+    @include('inc.messages')
     @yield('content')
+
 </div>
 
 <!-- Scripts -->

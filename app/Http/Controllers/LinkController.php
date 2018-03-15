@@ -43,7 +43,7 @@ class LinkController extends Controller
         $data = $request->only('link', 'title', 'description', 'private');
         $data['user_id'] = auth()->user()->id;
         $link = Link::create($data);
-        return redirect()->route('list_links');
+        return redirect()->route('list_links')->with('success', 'Link was created');;
     }
 
     /**
@@ -77,7 +77,7 @@ class LinkController extends Controller
     {
         $data = $request->only('link', 'title', 'description', 'private');
         $link->fill($data)->save();
-        return redirect()->route('show_link', ['id' => $link->id]);
+        return redirect()->route('show_link', ['id' => $link->id])->with('success', 'Link was updated');
     }
 
     /**
@@ -92,6 +92,6 @@ class LinkController extends Controller
         $link = Link::findOrFail($link->id);
         $link->delete();
 
-        return redirect()->route('main');
+        return redirect()->route('main')->with('delete', 'Link was deleted');
     }
 }
