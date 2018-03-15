@@ -21,9 +21,6 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail($id);
-        foreach ($user->roles as $role) {
-            $myRole = $role->name;
-        }
 
         $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
 
@@ -33,7 +30,7 @@ class UserController extends Controller
         }
 
 
-        return view('users.show', compact(['user', 'myRole','links']));
+        return view('users.show', compact(['user', 'links']));
     }
 
     /**
@@ -45,10 +42,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::orderBy('name')->pluck('name', 'id');
-        foreach ($user->roles as $role) {
-            $current_role = $role->id;
-        }
-        return view('users.edit', compact(['user', 'roles', 'current_role']));
+
+        return view('users.edit', compact(['user', 'roles']));
     }
 
     public function admin()
@@ -59,11 +54,10 @@ class UserController extends Controller
 
     public function update(User $user, Request $request)
     {
-        $data = $request->only('login', 'email', 'name', 'surname');
+        $data = $request->only('login', 'name', 'surname');
         if (Gate::allows('update-user-status-and-role')) {
-                $role = $request->only('role');
-                $user->roles()->sync($role);
-                $data = $request->only('verified');
+            $user->verified = $request->verified;
+            $user->role_id = $request->role;
         }
         $user->fill($data)->save();
         return redirect()->route('show_user', $user);

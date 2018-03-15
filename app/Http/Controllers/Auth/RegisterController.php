@@ -87,8 +87,6 @@ class RegisterController extends Controller
             'expired_date' => Carbon::now()->addHours(HOURS)
         ]);
 
-        $user->roles()->attach(['role' => 1]);
-
         Mail::to($user->email)->send(new VerifyMail($user));
 
         return $user;

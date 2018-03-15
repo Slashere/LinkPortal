@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('name', 100);
             $table->string('surname', 100);
 
+            $table->unsignedInteger('role_id')->default(1);
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+
             $table->boolean('verified')->default(false);
 
             $table->rememberToken();

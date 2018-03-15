@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    protected $table = 'roles';
     public $timestamps = false;
-    protected $fillable = ['name', 'slug', 'permissions'];
+    protected $guarded = [];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'role_users');
+        return $this->hasMany(User::class,'id');
     }
 
     public function hasAccess(array $permissions)
