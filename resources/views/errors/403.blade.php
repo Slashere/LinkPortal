@@ -2,4 +2,4 @@
 
 @section('title', 'Error')
 
-@section('message', 'You don\'t have permissions')
+@section('message', 'Access denied')
