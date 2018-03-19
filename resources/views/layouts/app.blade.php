@@ -12,6 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -51,7 +54,7 @@
                             <a href="{{ route('list_links') }}">My links</a>
                         </li>
                         <li>
-                            <a href="{{ route('show_user', Auth::user()->id) }}">Cabinet</a>
+                            <a href="{{ route('show_user', Auth::user()->id) }}">My account</a>
                         </li>
                         @if(Auth::user()->isAdmin())
                             <li>

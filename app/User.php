@@ -8,6 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Notifications\ResetPassword;
 
 class User extends Model implements AuthenticatableContract,CanResetPasswordContract
 {
@@ -15,6 +16,12 @@ class User extends Model implements AuthenticatableContract,CanResetPasswordCont
 
     protected $table = 'users';
     protected $guarded = [];
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 
     public function role()
     {

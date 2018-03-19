@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LinkRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Link;
 use App\User;
 use Illuminate\Support\Facades\Session;
@@ -38,7 +40,7 @@ class LinkController extends Controller
         return view('links.create');
     }
 
-    public function store(Request $request)
+    public function store(LinkRequest $request)
     {
         $data = $request->only('link', 'title', 'description', 'private');
         $data['user_id'] = auth()->user()->id;

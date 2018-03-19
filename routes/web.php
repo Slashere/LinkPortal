@@ -15,6 +15,8 @@
 
 Route::middleware('checkstatus')->group(function () {
 
+    Route::get('/password/reset/{token}/{email}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+
     Auth::routes();
 
     Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');

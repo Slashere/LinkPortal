@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\User;
 use App\Link;
 use Gate;
@@ -25,6 +26,8 @@ class UserController extends Controller
         if (Auth::check()) {
             if (Auth::user()->id == $id) {
                 $links = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
+            } else {
+                $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
             }
         } else {
             $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
@@ -57,7 +60,7 @@ class UserController extends Controller
         return view('admin.index', compact('users'));
     }
 
-    public function update(User $user, Request $request)
+    public function update(User $user, UserRequest $request)
     {
         $user->login = $request->input('login');
         $user->name = $request->input('name');

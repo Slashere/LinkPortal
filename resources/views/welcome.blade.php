@@ -8,41 +8,38 @@
             @endcan
             <div class="col-md-8 col-md-offset-2">
                 <h2>Links:</h2>
-            @foreach ($allLinks as $link)
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><a
-                                    href='{{ route('show_link',$link->id) }}'>Title: {{$link->title}}</a></div>
-                        <div class="panel-body">
-                            <p>Link: {{$link->link}}</p>
-                            <p>User: <a href="{{route('show_user',$link->user_id)}}">{{$link->user->name}}</a></p>
-                            <p>Description: {{$link->description}}</p>
-                            @can('update-link', $link)
-                                <p>Private: {{$link->private}}</p>
-                            @endcan
-                            @can('update-link', $link)
-                                <a class="btn btn-small btn-success" href="{{ route('edit_link', $link->id) }}">Edit
-                                    this
-                                    Link</a>
-                            @endcan
-                            @can('delete-link', $link)
-                            <!-- Delete should be a button -->
-                                {!! Form::open([
-                                        'method' => 'DELETE',
-                                        'route' => ['delete_link', $link->id],
-                                        'onsubmit' => "return confirm('Are you sure you want to delete?')",
-                                    ]) !!}
-                                {!! Form::submit('Delete',['class' => 'btn btn-small btn-danger']) !!}
-                                {!! Form::close() !!}
-                            <!-- End Delete button -->
-                            @endcan
-                        </div>
-
-                    </div>
-
-                @endforeach
-                    {{ $allLinks->links() }}
+                @if (count($allLinks) > 0)
+                    <section class="links">
+                @include('prewelcome')
+                    </section>
+                @endif
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+
+                $('#load a').css('color', '#dfecf6');
+                $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/loading.gif" />');
+
+                var url = $(this).attr('href');
+                getArticles(url);
+                window.history.pushState("", "", url);
+            });
+
+            function getArticles(url) {
+                $.ajax({
+                    url : url
+                }).done(function (data) {
+                    $('.links').html(data);
+                }).fail(function () {
+                    alert('Articles could not be loaded.');
+                });
+            }
+        });
+    </script>
 @endsection
 
