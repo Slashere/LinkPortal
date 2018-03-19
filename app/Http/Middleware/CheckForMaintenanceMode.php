@@ -19,7 +19,7 @@ class CheckForMaintenanceMode {
     public function handle($request, Closure $next)
     {
         if ($this->app->isDownForMaintenance() &&
-            !in_array($this->request->getClientIp(), ['10.110.0.1']))
+            !in_array($this->request->getClientIp(), ['178.49.121.197']))
         {
             return response('Be right back!', 503);
         }

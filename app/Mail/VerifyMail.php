@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
+use App\User;
 
 class VerifyMail extends Mailable
 {
@@ -21,6 +23,11 @@ class VerifyMail extends Mailable
     public function __construct($user)
     {
         $this->user = $user;
+    }
+
+    public static function sendAuthCode($user)
+    {
+        Mail::to($user->email)->send(new VerifyMail($user));
     }
 
     /**

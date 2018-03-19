@@ -57,21 +57,20 @@ class LoginController extends Controller
 
             $verifyUser = VerifyUser::where('user_id', '=', $user->id)->first();
 
-            if ($verifyUser === null) {
+            if ($verifyUser == null) {
 
                 VerifyUser::create([
                     'user_id' => $user->id,
                     'token' => str_random(40),
                     'expired_date' => Carbon::now()->addHours(HOURS)
                 ]);
+
+                VerifyMail::sendAuthCode($user);
+                return back()->with('message', 'You need to confirm your account. We have sent you an activation code, please check your email.');
             } else {
-                $verifyUser->token = str_random(40);
-                $verifyUser->expired_date = Carbon::now()->addHours(HOURS);
-                $verifyUser->save();
+                return view('auth.code',compact('user'));
             }
 
-            Mail::to($user->email)->send(new VerifyMail($user));
-            return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
         }
         return redirect()->intended($this->redirectPath());
     }

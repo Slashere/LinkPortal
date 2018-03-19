@@ -27,6 +27,8 @@ Route::middleware('checkstatus')->group(function () {
     Route::get('/user/{id}', 'UserController@show')
         ->name('show_user');
 
+    Route::post('/send/code/{id}', 'VerifyUserController@updateExpiredTime')->name('send_code');
+
     Route::middleware('auth')->group(function () {
 
         Route::get('/home', 'HomeController@index')
