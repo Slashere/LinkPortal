@@ -1,4 +1,3 @@
-<div id="load" style="position: relative;">
 @foreach ($allLinks as $link)
     <div class="panel panel-default">
         <div class="panel-heading"><a
@@ -31,5 +30,3 @@
     </div>
 
 @endforeach
-</div>
-{{ $allLinks->links() }}

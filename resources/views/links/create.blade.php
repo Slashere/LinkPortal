@@ -55,7 +55,7 @@
                             </div>
                             <label for="description" class="col-md-4 control-label">Private</label>
                             {{ Form::checkbox('private') }}
-
+                            {{ Form::file('image') }}
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

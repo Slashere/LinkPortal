@@ -42,10 +42,21 @@ class LinkController extends Controller
 
     public function store(LinkRequest $request)
     {
-        $data = $request->only('link', 'title', 'description', 'private');
+        $data = $request->only('link', 'title', 'description', 'private','image');
+        $link = new Link();
+
+        if( $request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = public_path(). '/images/';
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $filename);
+
+            $link->image = $path;
+        }
+
         $data['user_id'] = auth()->user()->id;
         $link = Link::create($data);
-        return redirect()->route('list_links')->with('success', 'Link was created');;
+        return redirect()->route('list_links')->with('success', 'Link was created');
     }
 
     /**
