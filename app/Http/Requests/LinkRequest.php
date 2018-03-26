@@ -27,6 +27,7 @@ class LinkRequest extends FormRequest
             'link' => 'required|string|max:255|min:6',
             'title' => 'required|string|max:255|min:6',
             'description' => 'required|string|max:255|min:6',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

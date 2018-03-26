@@ -8,7 +8,7 @@
                     <div class="panel-heading">Update Link</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST"
+                        <form accept-charset="utf-8" enctype="multipart/form-data" class="form-horizontal" role="form" method="POST"
                               action="{{ route('update_link', ['link' => $link->id]) }}">
                             {{ csrf_field() }}
 
@@ -56,11 +56,32 @@
                                     @endif
                                 </div>
                             </div>
-                            <label for="description" class="col-md-4 control-label">Private</label>
+                            <div class="form-group{{ $errors->has('private') ? ' has-error' : '' }}">
+                                <label for="private" class="col-md-4 control-label">Private</label>
+
+                                <div class="col-md-6">
 
                             {{ Form::hidden('private', 0) }}
                             {{ Form::checkbox('private', 1, old('private', $link->private)? 'checked' : '') }}
 
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                <label for="image" class="col-md-4 control-label">Image</label>
+
+                                <div class="col-md-6">
+                            @if ($link->image != NULL)
+                                <img src='{{'/images/'. $link->image }}'  height="200" width="300" style="background-size: cover;"/>
+                            @endif
+                            {{ Form::file('image') }}
+                            @if ($errors->has('image'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                            @endif
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

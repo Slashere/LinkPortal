@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Link;
 use App\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Gate;
+use Illuminate\Support\Facades\File;
 
 class LinkController extends Controller
 {
@@ -17,6 +19,29 @@ class LinkController extends Controller
 
     public function __construct()
     {
+    }
+
+    public function gallery(Request $request)
+    {
+
+        if (Auth::user()) {
+            $imageLink = Link::where(function ($query) {
+                $query->where('private', '=', false)
+                    ->orWhere('user_id', '=', Auth::user()->id);
+                     })->whereNotNull('image')->paginate(5);
+        } else {
+            $imageLink = Link::whereNotNull('image')->where('private', '=', false)->paginate(5);
+        }
+
+        if (Gate::allows('list-private-links')) {
+            $imageLink = Link::whereNotNull('image')->paginate(5);
+        }
+
+        if ($request->ajax()) {
+            return view('links.pregallery', ['imageLink' => $imageLink])->render();
+        }
+
+        return view('links.gallery', compact('imageLink'));
     }
 
     /**
@@ -42,19 +67,16 @@ class LinkController extends Controller
 
     public function store(LinkRequest $request)
     {
-        $data = $request->only('link', 'title', 'description', 'private','image');
-        $link = new Link();
+        $data = $request->all();
+        $path = public_path() . '/images';
 
-        if( $request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $path = public_path(). '/images/';
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move($path, $filename);
-
-            $link->image = $path;
+            $data['image'] = '(' . uniqid() . ')' . $image->getClientOriginalName();
+            $image->move($path, $data['image']);
         }
-
         $data['user_id'] = auth()->user()->id;
+
         $link = Link::create($data);
         return redirect()->route('list_links')->with('success', 'Link was created');
     }
@@ -88,7 +110,19 @@ class LinkController extends Controller
 
     public function update(Link $link, Request $request)
     {
-        $data = $request->only('link', 'title', 'description', 'private');
+        $data = $request->all();
+
+        $path = public_path() . '/images/';
+        if ($request->hasFile('image')) {
+            if (File::exists($path . $link->image)) { // unlink or remove previous image from folder
+                unlink($path . $link->image);
+            }
+            $image = $request->file('image');
+            $data['image'] = '(' . uniqid() . ')' . $image->getClientOriginalName();
+            $image->move($path, $data['image']);
+        }
+        $data['user_id'] = auth()->user()->id;
+
         $link->fill($data)->save();
         return redirect()->route('show_link', ['id' => $link->id])->with('success', 'Link was updated');
     }

@@ -8,7 +8,7 @@
                     <div class="panel-heading">Create Link</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{route('create_link')}}">
+                        <form accept-charset="utf-8" enctype="multipart/form-data" class="form-horizontal" role="form" method="POST" action="{{route('create_link')}}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
@@ -53,9 +53,28 @@
                                     @endif
                                 </div>
                             </div>
-                            <label for="description" class="col-md-4 control-label">Private</label>
-                            {{ Form::checkbox('private') }}
-                            {{ Form::file('image') }}
+                            <div class="form-group{{ $errors->has('private') ? ' has-error' : '' }}">
+                                <label for="private" class="col-md-4 control-label">Private</label>
+
+                                <div class="col-md-6">
+
+                                    {{ Form::checkbox('private') }}
+
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                <label for="image" class="col-md-4 control-label">Image</label>
+
+                                <div class="col-md-6">
+                                    {{ Form::file('image') }}
+                                    @if ($errors->has('image'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

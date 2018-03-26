@@ -12,9 +12,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.js" defer></script>
+
 </head>
 <body>
 <div id="app">
@@ -46,6 +51,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
+                    <li><a href="{{ route('gallery') }}">Gallery</a></li>
                     @guest
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
@@ -73,6 +79,7 @@
                             </form>
                         </li>
                     @endguest
+
                 </ul>
 
             </div>
@@ -85,6 +92,10 @@
 </div>
 
 <!-- Scripts -->
+
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script src="js/my-js.js" defer></script>
+
 </body>
 </html>

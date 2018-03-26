@@ -28,6 +28,9 @@
                         <div class="panel-heading"><a
                                     href='{{ route('show_link',$link->id) }}'>Title: {{$link->title}}</a></div>
                         <div class="panel-body">
+                            @if ($link->image != NULL)
+                                <img src='{{'/images/'. $link->image }}' height="200" width="300" style="object-fit: contain;"/>
+                            @endif
                             <p>Link: {{$link->link}}</p>
                             <p>User: <a href="{{route('show_user',$link->user_id)}}">{{$link->user->name}}</a></p>
                             <p>Description: {{$link->description}}</p>

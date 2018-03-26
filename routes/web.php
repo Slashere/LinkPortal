@@ -23,6 +23,8 @@ Route::middleware('checkstatus')->group(function () {
 
     Route::get('/', 'MainController@index')->name('main');
 
+    Route::get('/gallery', 'LinkController@gallery')->name('gallery');
+
     Route::get('/show/{link}', 'LinkController@show')
         ->name('show_link');
 
