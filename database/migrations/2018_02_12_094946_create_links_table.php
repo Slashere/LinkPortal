@@ -24,7 +24,7 @@ class CreateLinksTable extends Migration
 
             $table->string('title');
             $table->text('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->boolean('private')->default(false);
             $table->timestamps();
         });
