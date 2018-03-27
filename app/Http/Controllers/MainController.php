@@ -13,13 +13,13 @@ class MainController extends Controller
     {
 
         if (Auth::user()) {
-            $allLinks = Link::where('private', '=', false)->orWhere('user_id', '=', Auth::user()->id)->paginate(3);
+            $allLinks = Link::where('private', '=', false)->orWhere('user_id', '=', Auth::user()->id)->paginate(4);
         } else {
-            $allLinks = Link::where('private', '=', false)->paginate(3);
+            $allLinks = Link::where('private', '=', false)->paginate(4);
         }
 
         if (Gate::allows('list-private-links')) {
-            $allLinks = Link::paginate(3);
+            $allLinks = Link::paginate(4);
         }
 
         if ($request->ajax()) {

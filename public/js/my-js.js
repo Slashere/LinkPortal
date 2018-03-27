@@ -2,7 +2,7 @@ $(document).ready(function() {
     var lg = $("#lightgallery").lightGallery();
     var page = 1;
     $(window).scroll(function () {
-        var scrollHeight = $(window).scrollTop() + $(window).height();
+        var scrollHeight = $(window).scrollTop() + $(window).height()+1;
         var sectionHeight = $("body").height();
         if (scrollHeight >= sectionHeight) getData();
 
@@ -32,3 +32,4 @@ $(document).ready(function() {
         }
     })
 });
+

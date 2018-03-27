@@ -108,7 +108,7 @@ class LinkController extends Controller
         return view('links.edit', compact('link'));
     }
 
-    public function update(Link $link, Request $request)
+    public function update(Link $link, LinkRequest $request)
     {
         $data = $request->all();
 

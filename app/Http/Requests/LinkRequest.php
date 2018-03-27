@@ -24,9 +24,9 @@ class LinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'link' => 'required|string|max:255|min:6',
-            'title' => 'required|string|max:255|min:6',
-            'description' => 'required|string|max:255|min:6',
+            'link' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'title' => 'required|string',
+            'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
