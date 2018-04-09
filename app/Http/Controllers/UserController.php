@@ -9,32 +9,41 @@ use App\User;
 use App\Link;
 use Gate;
 use Illuminate\Support\Facades\Auth;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
+
+    /**
+     * @var UserService
+     */
+    private $userservice;
+
+    public function __construct(UserService $userservice)
+    {
+        $this->userservice = $userservice;
+    }
     /**
      * Display the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
 
-        $user = User::findOrFail($id);
-
         if (Auth::check()) {
-            if (Auth::user()->id == $id) {
+            if (Auth::user()->id == $user->id) {
                 $links = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
             } else {
-                $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
+                $links = Link::where('private', '=', false)->where('user_id', '=', $user->id)->paginate(3);
             }
         } else {
-            $links = Link::where('private', '=', false)->where('user_id', '=', $id)->paginate(3);
+            $links = Link::where('private', '=', false)->where('user_id', '=', $user->id)->paginate(3);
         }
 
         if (Gate::allows('list-private-links')) {
-            $links = Link::where('user_id', '=', $id)->paginate(3);
+            $links = Link::where('user_id', '=', $user->id)->paginate(3);
         }
 
 
@@ -50,7 +59,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::orderBy('name')->pluck('name', 'id');
-
         return view('users.edit', compact(['user', 'roles']));
     }
 
@@ -62,16 +70,7 @@ class UserController extends Controller
 
     public function update(User $user, UserRequest $request)
     {
-        $user->login = $request->input('login');
-        $user->name = $request->input('name');
-        $user->surname = $request->input('surname');
-
-        if (Gate::allows('update-user-status-and-role')) {
-            $user->verified = $request->input('verified');
-            $user->role_id = $request->input('role');
-        }
-
-        $user->save();
+        $this->userservice->updateUser($user, $request);
         return redirect()->route('show_user', $user)->with('success', 'User was updated');
     }
 
@@ -83,10 +82,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user = User::findOrFail($user->id);
-        $user->delete();
+        $this->userservice->destroyUser($user);
         return redirect()->route('admin_panel')->with('delete', 'User was deleted');
-
     }
 
 }

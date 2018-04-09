@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'expired_date' => Carbon::now()->addHours(HOURS)
         ]);
 
-        Mail::to($user->email)->send(new VerifyMail($user));
+        VerifyMail::sendAuthCode($user);
 
         return $user;
     }
@@ -101,7 +101,7 @@ class RegisterController extends Controller
                 $verifyUser->user->verified = 1;
                 $verifyUser->user->save();
                 $verifyUser->delete();
-                Auth::login($user, true);
+                Auth::login($user);
                 $status = "Your e-mail is verified.";
             }else{
                 $status = "Your e-mail is already verified.";

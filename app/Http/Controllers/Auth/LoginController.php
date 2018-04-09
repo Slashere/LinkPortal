@@ -53,7 +53,7 @@ class LoginController extends Controller
     public function authenticated(Request $request, User $user)
     {
         if (!$user->verified) {
-            auth()->logout();
+            $this->guard()->logout();
 
             $verifyUser = VerifyUser::where('user_id', '=', $user->id)->first();
 

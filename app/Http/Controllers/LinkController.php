@@ -4,21 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use App\Link;
-use App\User;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Gate;
+use App\Services\LinkService;
 use Illuminate\Support\Facades\File;
 
 class LinkController extends Controller
 {
-    protected $link;
+    private $linkservice;
 
-    public function __construct()
+    public function __construct(LinkService $linkservice)
     {
+        $this->linkservice = $linkservice;
     }
 
     public function gallery(Request $request)
@@ -28,7 +26,7 @@ class LinkController extends Controller
             $imageLink = Link::where(function ($query) {
                 $query->where('private', '=', false)
                     ->orWhere('user_id', '=', Auth::user()->id);
-                     })->whereNotNull('image')->paginate(5);
+            })->whereNotNull('image')->paginate(5);
         } else {
             $imageLink = Link::whereNotNull('image')->where('private', '=', false)->paginate(5);
         }
@@ -44,22 +42,12 @@ class LinkController extends Controller
         return view('links.gallery', compact('imageLink'));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $allMyLinks = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
         return view('links.index', compact('allMyLinks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('links.create');
@@ -81,28 +69,13 @@ class LinkController extends Controller
         return redirect()->route('list_links')->with('success', 'Link was created');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $link
-     * @return \Illuminate\Http\Response
-     */
     public function show(Link $link)
     {
-        if (Gate::allows('show-private-link', $link) or $link->private == 0) {
-            $link = Link::findOrFail($link->id);
-            return view('links.show', compact('link'));
-        } else {
-            abort(403);
-        }
+        $this->linkservice->show($link);
+        return view('links.show', compact('link'));
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Link $link)
     {
         return view('links.edit', compact('link'));
@@ -127,18 +100,9 @@ class LinkController extends Controller
         return redirect()->route('show_link', ['id' => $link->id])->with('success', 'Link was updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Link $link)
     {
-        // delete
-        $link = Link::findOrFail($link->id);
-        $link->delete();
-
+        $this->linkservice->destroy($link);
         return redirect()->route('main')->with('delete', 'Link was deleted');
     }
 }

@@ -19,7 +19,7 @@ Route::middleware('checkstatus')->group(function () {
 
     Auth::routes();
 
-    Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+    Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser')->name('user.verify');
 
     Route::get('/', 'MainController@index')->name('main');
 
@@ -28,7 +28,7 @@ Route::middleware('checkstatus')->group(function () {
     Route::get('/show/{link}', 'LinkController@show')
         ->name('show_link');
 
-    Route::get('/user/{id}', 'UserController@show')
+    Route::get('/user/{user}', 'UserController@show')
         ->name('show_user');
 
     Route::post('/send/code/{id}', 'VerifyUserController@updateExpiredTime')->name('send_code');
