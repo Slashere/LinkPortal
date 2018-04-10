@@ -71,9 +71,7 @@ class LinkController extends Controller
 
     public function show(Link $link)
     {
-        $this->linkservice->show($link);
         return view('links.show', compact('link'));
-
     }
 
     public function edit(Link $link)

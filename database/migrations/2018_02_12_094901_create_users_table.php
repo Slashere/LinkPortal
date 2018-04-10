@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('name', 100);
             $table->string('surname', 100);
 
-            $table->string('api_token', 60)->unique();
+//            $table->string('api_token', 60)->unique();
 
             $table->unsignedInteger('role_id')->default(1);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');

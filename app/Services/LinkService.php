@@ -13,18 +13,18 @@ use App\Link;
 use Illuminate\Http\Request;
 use Gate;
 use Validator;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Link as LinkResource;
 
 
 class LinkService
 {
     public function show(Link $link)
     {
-        if (Gate::allows('show-private-link', $link) or $link->private == 0) {
-            $link = Link::findOrFail($link->id);
-        } else {
-            abort(403);
-        }
+//        if (Gate::allows('show-private-link', $link) or $link->private == 0) {
+//           return $link = Link::findOrFail($link->id);
+//        } else {
+//            return response()->json('asdfsadf', 403);
+//        }
     }
 
     public function update(Link $link, Request $request)

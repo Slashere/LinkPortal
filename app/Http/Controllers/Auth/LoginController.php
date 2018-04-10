@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyMail;
 use App\VerifyUser;
+use Illuminate\Support\Facades\Config;
 
 class LoginController extends Controller
 {
@@ -62,7 +63,7 @@ class LoginController extends Controller
                 VerifyUser::create([
                     'user_id' => $user->id,
                     'token' => str_random(40),
-                    'expired_date' => Carbon::now()->addHours(HOURS)
+                    'expired_date' => Carbon::now()->addHours(Config::get('constants.options'))
                 ]);
 
                 VerifyMail::sendAuthCode($user);

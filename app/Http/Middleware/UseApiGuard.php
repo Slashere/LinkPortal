@@ -17,9 +17,7 @@ class UseApiGuard
      */
     public function handle($request, Closure $next)
     {
-
         Auth::shouldUse('api');
-
         return $next($request);
     }
 }

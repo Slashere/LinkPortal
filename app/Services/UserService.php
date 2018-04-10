@@ -48,7 +48,7 @@ class UserService
             $this->updateUserStatusAndRole($user, $request);
         }
 
-        if($user->save()) {
+        if($user->update()) {
             return new UserResource($user);
         }
     }

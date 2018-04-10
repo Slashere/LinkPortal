@@ -14,6 +14,7 @@ use App\Mail\VerifyMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class RegisterController extends Controller
 {
@@ -84,7 +85,7 @@ class RegisterController extends Controller
         $verifyUser = VerifyUser::create([
             'user_id' => $user->id,
             'token' => str_random(40),
-            'expired_date' => Carbon::now()->addHours(HOURS)
+            'expired_date' => Carbon::now()->addHours(Config::get('constants.options'))
         ]);
 
         VerifyMail::sendAuthCode($user);

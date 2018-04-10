@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function update(User $user, Request $request)
     {
-
+        dd(Auth::user()->name);
        return $this->userservice->update($user, $request);
 
     }

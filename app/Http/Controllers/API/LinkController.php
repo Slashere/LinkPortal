@@ -33,7 +33,6 @@ class LinkController extends Controller
 
     public function show(Link $link)
     {
-        $this->linkservice->show($link);
         return new LinkResource($link);
     }
 

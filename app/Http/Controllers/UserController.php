@@ -31,7 +31,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-
         if (Auth::check()) {
             if (Auth::user()->id == $user->id) {
                 $links = Link::where('user_id', '=', Auth::user()->id)->paginate(3);
@@ -46,16 +45,9 @@ class UserController extends Controller
             $links = Link::where('user_id', '=', $user->id)->paginate(3);
         }
 
-
         return view('users.show', compact(['user', 'links']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         $roles = Role::orderBy('name')->pluck('name', 'id');
@@ -70,19 +62,13 @@ class UserController extends Controller
 
     public function update(User $user, UserRequest $request)
     {
-        $this->userservice->updateUser($user, $request);
+        $this->userservice->update($user, $request);
         return redirect()->route('show_user', $user)->with('success', 'User was updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
-        $this->userservice->destroyUser($user);
+        $user->delete();
         return redirect()->route('admin_panel')->with('delete', 'User was deleted');
     }
 
